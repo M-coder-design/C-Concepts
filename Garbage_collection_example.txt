@@ -28,3 +28,12 @@ class Program
         task.Wait();
     }
 }
+
+When is Garbage Collection called?
+
+When does garbage collection run?
+Garbage collection can run in several scenarios:
+When memory is low: The runtime can trigger garbage collection when the system is running low on memory.
+When the heap is full: When the heap is full, the runtime will trigger garbage collection to reclaim memory and make room for new objects.
+Periodically: The runtime can also trigger garbage collection periodically, based on a timer or other heuristics.
+When the application is idle: Some garbage collectors, like the concurrent garbage collector, can run in the background while the application is idle.
