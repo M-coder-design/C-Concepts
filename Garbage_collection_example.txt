@@ -37,3 +37,31 @@ When memory is low: The runtime can trigger garbage collection when the system i
 When the heap is full: When the heap is full, the runtime will trigger garbage collection to reclaim memory and make room for new objects.
 Periodically: The runtime can also trigger garbage collection periodically, based on a timer or other heuristics.
 When the application is idle: Some garbage collectors, like the concurrent garbage collector, can run in the background while the application is idle.
+
+GC.WaitForPendingFinalizers() - 
+This method suspends the current thread until the finalizers (destructors) of all objects that were flagged for garbage collection during the most recent garbage collection cycle have completed.
+Finalizers are methods that are called just before an object is garbage collected, allowing the object to release any unmanaged resources it holds.
+
+Why wait for finalizers?
+Waiting for finalizers can be important in scenarios where:
+Resource cleanup: You need to ensure that unmanaged resources, such as file handles or database connections, are properly released.
+Testing and verification: You want to verify that finalizers are working correctly and that resources are being released as expected.
+Synchronization: You need to synchronize the execution of your code with the completion of finalizers.
+
+Example: 
+public class FileHandler
+{
+    private IntPtr fileHandle;
+
+    public FileHandler(string filePath)
+    {
+        fileHandle = OpenFile(filePath);
+    }
+
+    ~FileHandler()
+    {
+        CloseFile(fileHandle);
+    }
+
+    // ...
+}
