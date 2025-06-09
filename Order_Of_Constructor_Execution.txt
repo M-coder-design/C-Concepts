@@ -1,0 +1,15 @@
+What is the order of constructor execution in inheritance?
+
+class Base
+{
+    public Base() => Console.WriteLine("Base constructor");
+}
+
+class Derived : Base
+{
+    public Derived() => Console.WriteLine("Derived constructor");
+}
+
+Output: 
+Base constructor
+Derived constructor

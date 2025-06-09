@@ -1,0 +1,27 @@
+What is Common Language Runtime (CLR)?
+
+Ans: The CLR is like the "engine" or "heart" of the .NET Framework. It’s responsible for running your .NET programs . When you write code in C#, VB.NET, etc., it gets compiled into an Common Intermediate Language (CIL) first, not directly into machine code. Then the CLR takes this IL and converts it into actual machine code at runtime.
+
+🔧 Key Jobs of the CLR:
+
+Compiling Intermediate Language (IL) to Machine Code - Uses a Just-In-Time (JIT) Compiler. The JIT compiler inside the CLR translates this IL into machine code (the language your computer understands) only when needed — i.e., just before a method runs.
+
+Memory Management - Automatically handles memory allocation and cleanup (Garbage Collection). The CLR includes something called the Garbage Collector (GC). When you create objects in C#, memory is allocated for them. But once they’re no longer used, who cleans up? The Garbage Collector does!
+
+Example :
+Person p = new Person(); // Memory allocated
+p = null; // We don't need it anymore
+
+Security Checks - Ensures code runs safely. The CLR checks whether the code has permissions to perform certain actions like:
+Reading/writing files
+Accessing the network
+Using the registry
+
+Exception Handling - Helps manage errors in your code
+
+Thread Management - Manages tasks running simultaneously. Creating and managing threads
+Scheduling work across threads
+Providing tools like:
+Thread, Task, async/await
+Thread pools (ready-made threads)
+Synchronization primitives (lock, Monitor, Semaphore, etc.)

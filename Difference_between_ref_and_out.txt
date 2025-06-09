@@ -1,0 +1,37 @@
+What is the difference between ref and out keywords?
+
+Ans : 
+
+Must Be initialized before passing : ref - yes, out - no
+
+Must be assigned inside the method : ref - no, out - yes
+
+Used when : ref - You want to modify an existing value, out - ou want to return an additional value
+
+Typical use case : ref - ref - Modify input values, out - Return multiple values from a method
+
+Example:
+
+ref :
+void DoubleValue(ref int number)
+{
+    number = number * 2;
+}
+
+int x = 5;
+DoubleValue(ref x);
+Console.WriteLine(x); // Output: 10
+
+out : 
+void GetUserInfo(out string name, out int age)
+{
+    name = "Alice";
+    age = 30;
+}
+
+string userName;
+int userAge;
+
+GetUserInfo(out userName, out userAge);
+
+Console.WriteLine($"{userName}, {userAge}"); // Output: Alice, 30

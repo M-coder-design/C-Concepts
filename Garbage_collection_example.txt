@@ -1,0 +1,30 @@
+using System;
+using System.Threading.Tasks;
+
+class Program
+{
+    static void Main()
+    {
+        // Allocate some memory
+        for (int i = 0; i < 100000; i++)
+        {
+            var temp = new object(); // Create many short-lived objects
+        }
+
+        Console.WriteLine("Memory allocated, now GC will collect soon...");
+
+        // Run GC explicitly (not recommended normally)
+        GC.Collect();
+        GC.WaitForPendingFinalizers();
+
+        Console.WriteLine("Garbage collected!");
+
+        // Run a background task
+        Task task = Task.Run(() =>
+        {
+            Console.WriteLine("Task running on thread ID: " + Environment.CurrentManagedThreadId);
+        });
+
+        task.Wait();
+    }
+}

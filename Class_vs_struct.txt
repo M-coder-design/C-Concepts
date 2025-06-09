@@ -1,0 +1,62 @@
+Class vs Struct
+
+Ans: 
+
+Struct → Value Type -
+
+Lives on the stack (usually)
+Stores the actual data
+When you copy a struct (e.g., assign to another variable), you get a copy of the data
+
+Implementation : 
+
+struct Point
+{
+    public int X, Y;
+}
+
+Point p1 = new Point { X = 1, Y = 2 };
+Point p2 = p1; // Copy of p1
+p2.X = 99;
+
+Console.WriteLine(p1.X); // Output: 1
+Console.WriteLine(p2.X); // Output: 99
+
+
+
+class → Reference Type -
+
+Lives on the heap
+Stores a reference (pointer) to the data
+When you copy a class variable, you copy the reference , not the data — so both variables point to the same object
+
+Implementation: 
+
+class Person
+{
+    public string Name;
+}
+
+Person p1 = new Person { Name = "Alice" };
+Person p2 = p1; // Reference to same object
+p2.Name = "Bob";
+
+Console.WriteLine(p1.Name); // Output: Bob
+Console.WriteLine(p2.Name); // Output: Bob
+
+Inheritance : 
+
+Supports inheritance - struct - No, class - yes
+can implement interfaces - struct  - yes, class - yes
+Can be abstract - struct - No, class -yes
+
+Default Constructor :
+
+Can have a parameterless constructor - struct - No (C# 10+ allows it with restrictions), class - yes
+Fields can be inititalized inline - struct - Yes, class - Yes
+
+Memory Management :
+
+Garbage collected? - struct - No, clss - yes
+
+

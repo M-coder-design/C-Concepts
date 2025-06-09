@@ -1,0 +1,119 @@
+1. Why is it not recommended to make mutable structs? What problems can arise?
+
+Ans : Because structs are copied by value, changes made in one place might not affect the original.
+
+without ref: 
+struct Point
+{
+    public int X, Y;
+    public void Move(int dx, int dy) => X += dx; // Modifies copy!
+}
+
+
+with ref:
+struct Point
+{
+    public int X, Y;
+    public static void Move(ref Point p, int dx, int dy)
+    {
+        p.X += dx;
+        p.Y += dy;
+    }
+}
+
+Point p = new Point { X = 1, Y = 2 };
+Point.Move(ref p, 3, 4); // p is now (4, 6)
+
+2. What is the difference when struct implements interface as compared to class?
+
+Ans : When a struct implements an interface, boxing occurs when accessed through the interface reference.
+Boxing moves the value type to the heap and wraps it in an object — which affects performance.
+
+struct MyStruct : IDisposable
+{
+    public void Dispose() { Console.WriteLine("Disposed"); }
+}
+
+MyStruct s;
+IDisposable d = s; // Boxing happens here
+d.Dispose();
+
+So while possible, using interfaces with structs may lead to performance overhead .
+
+3. Can a struct contain another struct as a field? Can it contain a class?
+
+Ans : A struct can have:
+Other structs (value type)
+Classes (reference type)
+
+The struct contains a reference to the class object — so the actual object lives on the heap.
+Structs inside structs stay on the stack (mostly), but nested classes still go to the heap.
+
+4. What is the default value of a struct? How is it different from a class?
+
+Ans : For struct
+Point p = default;
+Console.WriteLine(p.X); // Output: 0
+
+For class
+Person p = default;
+Console.WriteLine(p); // Output: null
+
+5. What happens to struct when captured in lambda or struct?
+
+Ans : This refers to a situation where a local variable or parameter , such as a struct, is used inside a lambda expression or an async method . When that happens, the compiler has to capture that variable and keep it alive beyond its normal scope.
+
+But here's the twist:
+When a struct is captured , it can get promoted to the heap , even though it was originally on the stack.
+
+struct Point
+{
+    public int X;
+}
+
+class Program
+{
+    static void Main()
+    {
+        Point p = new Point { X = 10 };
+
+        Action changePoint = () =>
+        {
+            p.X = 20; // We're modifying the struct
+        };
+
+        changePoint();
+
+        Console.WriteLine(p.X); // Output: 20
+    }
+}
+
+You might expect that p is a local variable (on the stack), and since it's a struct, assigning p.X = 20 inside the lambda would modify a copy of p. But in reality, the lambda captures the actual variable .
+
+To make that possible, the C# compiler creates a hidden class (a closure) to hold the variable so it survives beyond the method scope. This means:
+
+The struct is now boxed (moved to the heap).
+Any changes inside the lambda affect the same instance .
+So even though p started life on the stack, it gets lifted to the heap because it’s captured by the lambda.
+
+Same for async: 
+struct Point
+{
+    public int X;
+}
+
+class Program
+{
+    static async Task Main()
+    {
+        Point p = new Point { X = 10 };
+
+        await Task.Run(() =>
+        {
+            p.X = 20;
+        });
+
+        Console.WriteLine(p.X); // Output: 20
+    }
+}
+

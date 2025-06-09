@@ -1,0 +1,61 @@
+What is inheritance? Does C# support multiple inheritance?
+
+Ans: Inheritance is an important pillar of OOP(Object Oriented Programming). It is the mechanism in C# by which one class is allowed to inherit the features(fields and methods) of another class.
+
+Super Class: The class whose features are inherited is known as superclass(or a base class or a parent class).
+Sub Class: The class that inherits the other class is known as a subclass(or a derived class, extended class, or child class). The subclass can add its own fields and methods in addition to the superclass fields and methods.
+Reusability: Inheritance supports the concept of “reusability”, i.e. when we want to create a new class and there is already a class that includes some of the code that we want, we can derive our new class from the existing class. By doing this, we are reusing the fields and methods of the existing class.
+
+Why not C# supports multiple inheritance?  How can we work around it?
+
+Ans : Why? - To avoid the Diamond Problem (confusion when two parent classes have the same method).
+Workaround - Use interfaces or composition instead.
+
+Scenario 1: 
+
+interface IA { void Do(); }
+interface IB { void Do(); }
+
+class MyClass : IA, IB
+{
+    public void Do()
+    {
+        Console.WriteLine("Implemented from both IA and IB");
+    }
+}
+
+MyClass obj = new MyClass();
+obj.Do(); // Outputs: Implemented from both IA and IB
+
+IA ia = obj;
+ia.Do(); // Outputs: Implemented from both IA and IB
+
+IB ib = obj;
+ib.Do(); // Outputs: Implemented from both IA and IB
+
+This works because the method signatures match exactly, and the compiler can infer that the single implementation satisfies both interface requirements. This is called Implicit Interface implementation.
+
+Scenario 2:
+
+class MyClass : IA, IB
+{
+    void IA.Do()
+    {
+        Console.WriteLine("Implemented from IA");
+    }
+
+    void IB.Do()
+    {
+        Console.WriteLine("Implemented from IB");
+    }
+}
+
+MyClass obj = new MyClass();
+IA ia = obj;
+ia.Do(); // Outputs: Implemented from IA
+
+IB ib = obj;
+ib.Do(); // Outputs: Implemented from IB
+
+If the interfaces had methods with the same name but different signatures, or if you wanted to provide different implementations for each interface, you would need to use Explicit Interface Implementation.
+

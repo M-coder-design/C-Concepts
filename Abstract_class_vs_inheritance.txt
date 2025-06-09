@@ -1,0 +1,13 @@
+Difference between abstract class and interface
+
+Ans : 
+
+Can contain implementation - Abstract class - yes, Interface - Limited(default methods since C#8)
+
+Can have constructors - Abstract class - yes, Interface - no
+
+Can have fields - Abstract class - yes, Interface - no
+
+Supports multiple inheritance - Abstract class - no, Interface - yes
+
+Used for - Abstract class - "is-a relationship", Interface - "Can-do"

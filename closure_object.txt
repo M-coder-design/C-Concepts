@@ -1,0 +1,37 @@
+What is a Closure Object?
+
+Ans - A closure object is a compiler-generated class that C# creates behind the scenes when you capture a variable inside a lambda expression or an async method .
+
+int x = 10;
+Action printX = () => Console.WriteLine(x);
+
+You're using x inside a lambda , but x was declared outside of it. That’s called variable capturing .
+
+But lambdas are really just methods on objects , and local variables don’t live long enough or in the right place to be used there.
+
+So the compiler does something clever:
+
+It creates a hidden class
+Copies the captured variable (x) into that class
+Uses that class to hold the state across scopes
+This hidden class is the closure object .
+
+Behind the scenes :
+
+// Step 1: Closure class created by the compiler
+[CompilerGenerated]
+private sealed class DisplayClass
+{
+    public int x;
+
+    public void PrintX()
+    {
+        Console.WriteLine(x);
+    }
+}
+
+// Step 2: Usage
+var c = new DisplayClass();
+c.x = 10;
+Action printX = c.PrintX;
+printX(); // Actually calls DisplayClass.PrintX()

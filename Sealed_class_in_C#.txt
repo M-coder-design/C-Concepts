@@ -1,0 +1,14 @@
+ What is sealed class/method in C# and how does it affect inheritance?
+
+ Ans : The sealed keyword prevents a class from being inherited or a method from being overridden. 
+
+ sealed class FinalClass
+{
+    public void Method() { }
+}
+
+class Derived : FinalClass // ❌ Compile-time error
+{
+}
+
+Useful for security, performance, or finalizing APIs.
